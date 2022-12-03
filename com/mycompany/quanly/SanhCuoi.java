@@ -29,7 +29,7 @@ public class SanhCuoi {
         private final String ngatFile =",";
         
         
-        public static List<SanhCuoi> cacSanh = new ArrayList<>();
+        private static List<SanhCuoi> cacSanh = new ArrayList<>();
         
         private String form = "%-10s%-15s%-10s%-10s%-10s%n";
         private String[] header = new String[] {"Ma Sanh","Ten Sanh","Vi Tri","Suc Chua","Gia Thue"};
@@ -98,6 +98,24 @@ public class SanhCuoi {
             }
             rewriteFile();
 	}
+        
+        // ghi lai file / overwrite file
+        public void rewriteFile() throws IOException{
+            try (FileWriter fileWriter = new FileWriter(file, false)){
+                try (PrintWriter writer = new PrintWriter(fileWriter)){
+                    for (SanhCuoi s: cacSanh){
+                        writer.print(s.maSanh + ngatFile);
+                        writer.print(s.tenSanh + ngatFile);
+                        writer.print(Integer.toString(s.viTri) + ngatFile);
+                        writer.print(Long.toString(s.sucChua) + ngatFile);
+                        writer.print(s.getGiaThue() + ngatFile);
+                        writer.println();
+                    }
+                }
+            } catch (Exception e){
+                 System.out.println(e);
+            }
+        }
 
 	public static List<SanhCuoi> tim(String noiDung, int i) throws FileNotFoundException {
             List<SanhCuoi> sc = new ArrayList<>();
@@ -140,7 +158,7 @@ public class SanhCuoi {
         
         public static void hienThiFile(SanhCuoi sanhCuoi){
                 System.out.format(sanhCuoi.getForm(), sanhCuoi.getHeader());
-                for (Object[] row : toTable(cacSanh, cacSanh.size())){
+                for (Object[] row : toTable(getCacSanh(), getCacSanh().size())){
                     System.out.format(sanhCuoi.getForm(), row);
                }
         }
@@ -158,29 +176,13 @@ public class SanhCuoi {
             return table;
         }
         
-        // ghi lai file / overwrite file
-        public void rewriteFile() throws IOException{
-            try (FileWriter fileWriter = new FileWriter(file, false)){
-                try (PrintWriter writer = new PrintWriter(fileWriter)){
-                    for (SanhCuoi s: cacSanh){
-                        writer.print(s.maSanh + ngatFile);
-                        writer.print(s.tenSanh + ngatFile);
-                        writer.print(Integer.toString(s.viTri) + ngatFile);
-                        writer.print(Long.toString(s.sucChua) + ngatFile);
-                        writer.print(s.getGiaThue() + ngatFile);
-                        writer.println();
-                    }
-                }
-            } catch (Exception e){
-                 System.out.println(e);
-            }
-        }
+
         
         
     //      phuong thuc khoi tao sanh cuoi da co
             public SanhCuoi(String maSanhCuoi, String tenSanh, int viTri, long sucChua, long giaThue){
-                this.maSanh = maSanhCuoi;
-                this.tenSanh = tenSanh;
+                this.maSanh = maSanhCuoi.toUpperCase();
+                this.tenSanh = tenSanh.toUpperCase();
                 this.viTri = viTri;
                 this.sucChua = sucChua;
                 this.giaThue = giaThue;
@@ -188,15 +190,13 @@ public class SanhCuoi {
             }        
         
     //      phuong thuc khoi tao khong tham so
-            public SanhCuoi(){
-                this(null, null, 0, 0, 0);
-            }
+            public SanhCuoi(){}
 
         
     //      phuong thuc khoi tao sanh cuoi moi
             public SanhCuoi(String tenSanh, int viTri, long sucChua, long giaThue) throws FileNotFoundException{
                 this.maSanh = nextMaSanh(docMaSanh());
-                this.tenSanh = tenSanh;
+                this.tenSanh = tenSanh.toUpperCase();
                 this.viTri = viTri;
                 this.sucChua = sucChua;
                 this.giaThue = giaThue;
@@ -231,6 +231,8 @@ public class SanhCuoi {
             }
             return maSanh;
         }
+        
+        
 
     /**
      * @return the maSanh
@@ -330,6 +332,39 @@ public class SanhCuoi {
         return header;
     }
 
+    /**
+     * @return the cacSanh
+     */
+    public static List<SanhCuoi> getCacSanh() {
+        return cacSanh;
+    }
+
+    /**
+     * @param giaThue the giaThue to set
+     */
+    public void setGiaThue(long giaThue) {
+        this.giaThue = giaThue;
+    }
+
+
+    public void init() throws FileNotFoundException {
+        SanhCuoi sc = new SanhCuoi();
+        try (Scanner scanner = new Scanner(file)){
+            scanner.useDelimiter(",");
+            while (scanner.hasNextLine()){
+                String maSC = scanner.next();
+                String tenSanh = scanner.next();
+                int viTri = Integer.parseInt(scanner.next());
+                long sucChua = Long.parseLong(scanner.next());
+                long giaThue = Long.parseLong(scanner.next());
+                SanhCuoi sanh = new SanhCuoi(maSC, tenSanh, viTri, sucChua, giaThue);
+                sc.getCacSanh().add(sanh);
+                scanner.nextLine();
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        } 
+    }
 
 
 }

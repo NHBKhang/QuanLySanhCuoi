@@ -5,7 +5,6 @@
 
 package com.mycompany.quanly;
 
-import static com.mycompany.quanly.SanhCuoi.cacSanh;
 import static com.mycompany.quanly.SanhCuoi.hienThi;
 import static com.mycompany.quanly.SanhCuoi.hienThiFile;
 import java.io.File;
@@ -27,12 +26,13 @@ import java.util.Scanner;
  * @author KHANG
  */
 public class QuanLy {
-
     public static void main(String[] args) throws FileNotFoundException, IOException {
-//        Scanner scanner = new Scanner(System.in);
-
+        Scanner scanner = new Scanner(System.in);
         SanhCuoi sc = new SanhCuoi();
-        init();
+        DichVu dv = new DichVu();
+        sc.init();
+        dv.init();
+        
         
 //        System.out.print("Hãy nhập tên sảnh:");
 //        String tenSanh = scanner.nextLine();
@@ -40,7 +40,6 @@ public class QuanLy {
 //        int viTri = scanner.nextInt();
 //        System.out.print("Hãy sức chứa sảnh:");
 //        long sucChua = scanner.nextInt();
-
 
 //        String ngay = "30/1/2022";
 //        GiaThue gia = new GiaThue(new HeSoGiaThue(1), ngay);
@@ -51,30 +50,13 @@ public class QuanLy {
 //        System.out.println(sc.getViTri());
 //        System.out.println(sc.getSucChua());
 
-        
 
 
+    
+    
+    
     }
     
-    /**
-     *
-     */
-    private static void init(){
-        SanhCuoi sc = new SanhCuoi();
-        try (Scanner scanner = new Scanner(sc.getFile())){
-            scanner.useDelimiter(sc.getNgatFile());
-            while (scanner.hasNextLine()){
-                String maSC = scanner.next();
-                String tenSanh = scanner.next();
-                int viTri = Integer.parseInt(scanner.next());
-                long sucChua = Long.parseLong(scanner.next());
-                long giaThue = Long.parseLong(scanner.next());
-                SanhCuoi sanh = new SanhCuoi(maSC, tenSanh, viTri, sucChua, giaThue);
-                cacSanh.add(sanh);
-                scanner.nextLine();
-            }
-        } catch (Exception e){
-            System.out.println(e);
-        }
-    }
+ 
+
 }

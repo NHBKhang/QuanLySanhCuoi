@@ -57,7 +57,26 @@ public class GiaThue {
                     }
             }
             else {
-                
+//                System.out.println("Ban muon viet lai ngay " + this.date + "?");
+//                System.out.println("1.Co | 2.Khong");
+//                Scanner jout = new Scanner(System.in);
+//                String i = jout.next();
+//                if (i == "1"){
+//                    try(FileWriter fileWriter = new FileWriter(file, true)){
+//                        try(PrintWriter writer = new PrintWriter(fileWriter)){
+//                            writer.printf("%s\s",this.date);
+//                            writer.print(this.heSoKhac);
+//                            writer.println();
+//                        } catch (Exception ex){
+//                            System.out.print(ex);
+//                        }
+//                    } catch (Exception ex){
+//                        System.out.print(ex);
+//                    }
+//                }
+//                else {
+//                    ;
+//                }
             }   
 	}
         
