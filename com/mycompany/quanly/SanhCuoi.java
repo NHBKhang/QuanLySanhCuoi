@@ -53,6 +53,9 @@ public class SanhCuoi {
         
         public void capNhat(String noiDung) throws IOException {
             String[] string = noiDung.split(this.ngatFile);
+            for (String s: string){
+                s.trim();
+            }
             for (int i = 0; i < string.length; i++){
                 this.capNhat(string[i], i+1);
             }
@@ -88,14 +91,7 @@ public class SanhCuoi {
         //
         
 	public void xoa(String ma) throws IOException {
-            for (SanhCuoi s: cacSanh){
-                if (s.maSanh.toLowerCase().equals(ma.toLowerCase())){
-                    System.out.println(s.maSanh.toLowerCase().equals(ma.toLowerCase()));
-                    System.out.println(s.maSanh);
-                    cacSanh.remove(s);
-                    break;
-                }
-            }
+            cacSanh.remove(this);
             rewriteFile();
 	}
         
@@ -117,7 +113,7 @@ public class SanhCuoi {
             }
         }
 
-	public static List<SanhCuoi> tim(String noiDung, int i) throws FileNotFoundException {
+	public List<SanhCuoi> traCuu(String noiDung, int i){
             List<SanhCuoi> sc = new ArrayList<>();
             for (SanhCuoi sanh: cacSanh){
                 if (i == 0){
@@ -138,6 +134,7 @@ public class SanhCuoi {
             }
             return sc;
 	}
+        // ket thuc chuc nang
         
         public static void hienThi(List<SanhCuoi> sanhCuoi, SanhCuoi sc){
             System.out.format(sc.getForm(), sc.getHeader());
@@ -164,7 +161,7 @@ public class SanhCuoi {
         }
         
         //  tao bang
-        public static final Object[][] toTable(List<SanhCuoi> sanh, int size) {
+        private static Object[][] toTable(List<SanhCuoi> sanh, int size) {
             final Object[][] table = new String[size][];
             for (int i = 0; i < size; i++){
                 table[i] = new String[] {sanh.get(i).maSanh,
@@ -364,6 +361,10 @@ public class SanhCuoi {
         } catch (Exception e){
             System.out.println(e);
         } 
+    }
+
+    List<DichVu> getCacDichVu() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 

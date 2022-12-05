@@ -5,8 +5,11 @@
 
 package com.mycompany.quanly;
 
+import static com.mycompany.quanly.DichVu.getCacDichVu;
 import static com.mycompany.quanly.SanhCuoi.hienThi;
 import static com.mycompany.quanly.SanhCuoi.hienThiFile;
+import static com.mycompany.quanly.DichVu.hienThi;
+import static com.mycompany.quanly.DichVu.hienThiFile;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -32,7 +35,9 @@ public class QuanLy {
         DichVu dv = new DichVu();
         sc.init();
         dv.init();
-        
+        DichVu d = new DichVu("Thue MC", 100000, "");
+        d.them();
+        hienThiFile(dv);
         
 //        System.out.print("Hãy nhập tên sảnh:");
 //        String tenSanh = scanner.nextLine();

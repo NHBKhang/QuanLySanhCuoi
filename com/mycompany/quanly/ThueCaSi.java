@@ -14,11 +14,11 @@ public class ThueCaSi extends DichVu{
     private int soLuong;
     
     public ThueCaSi(){
-        super("D003", "Thue Ca Si", 120000);
+        super("D003", "Thue Ca Si", 125000);
     }
     
     public ThueCaSi(CaSi caSi, int soLuong){
-       super("D003", "Thue Ca Si", 120000);
+       super("D003", "Thue Ca Si", 125000);
        this.caSi = caSi;
        this.soLuong = soLuong;
     }
