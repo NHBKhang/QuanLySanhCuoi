@@ -30,7 +30,7 @@ public class ThucUong extends Menu {
 
     private static List<ThucUong> monUong = new ArrayList<>();
 
-    public void initB() {
+    public void init() {
         ThucUong tu = new ThucUong();
         try ( Scanner d = new Scanner("C:\\Data\\ThucUong.txt")) {
             d.useDelimiter(",");
@@ -63,15 +63,15 @@ public class ThucUong extends Menu {
         getMonUong().add(this);
     }
 
-    public void capNhatB(String noiDung) throws IOException {
+    public void capNhat(String noiDung) throws IOException {
         String[] b = noiDung.split(",");
         for (int i = 0; i < b.length; i++) {
-            this.capNhatB(b[i], i + 1);
+            this.capNhat(b[i], i + 1);
         }
-        rewriteFileB();
+        rewriteFile();
     }
 
-    public void capNhatB(String noiDung, int viTriSua) throws IOException {
+    public void capNhat(String noiDung, int viTriSua) throws IOException {
         if (viTriSua == 1) {
             this.setMaMon(noiDung.toUpperCase());
         } else if (viTriSua == 2) {
@@ -81,11 +81,11 @@ public class ThucUong extends Menu {
         } else {
             this.hangSx = (noiDung.toUpperCase());
         }
-        rewriteFileB();
+        rewriteFile();
     }
 
     //Phuong Thuc Ho Tro Xoa
-    public ThucUong timXoaB(String maMon) {
+    public ThucUong timXoa(String maMon) {
         ThucUong drink = new ThucUong();
         for (ThucUong x : getMonUong()) {
             if (x.getMaMon().toLowerCase().equals(maMon.toLowerCase())) {
@@ -104,7 +104,7 @@ public class ThucUong extends Menu {
                 break;
             }
         }
-        rewriteFileB();
+        rewriteFile();
     }
 
     public List<ThucUong> timThucUong(String noiDung, int i) throws FileNotFoundException {
@@ -158,7 +158,7 @@ public class ThucUong extends Menu {
         return maMon;
     }
 
-    public void rewriteFileB() throws IOException {
+    public void rewriteFile() throws IOException {
         try ( FileWriter fileWriter = new FileWriter(file, false)) {
             try ( PrintWriter writer = new PrintWriter(fileWriter)) {
                 for (ThucUong x : getMonUong()) {

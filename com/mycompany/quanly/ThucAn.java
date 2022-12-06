@@ -19,7 +19,7 @@ import java.util.Scanner;
  */
 public class ThucAn extends Menu {
 
-    private boolean anChay = true;
+    private boolean anChay= true ;
     private final String url = "C:\\Data\\ThucAn";
     private File file = new File(getUrl());
 
@@ -30,7 +30,7 @@ public class ThucAn extends Menu {
 
     private static List<ThucAn> monAn = new ArrayList<>();
 
-    public void initA() {
+    public void init() {
         ThucAn ta = new ThucAn();
         try ( Scanner c = new Scanner(file)) {
             c.useDelimiter(",");
@@ -65,15 +65,15 @@ public class ThucAn extends Menu {
     }
 
     //Phuong Thuc Ho Tro//
-    public void capNhatA(String noiDung) throws IOException {
+    public void capNhat(String noiDung) throws IOException {
         String[] a = noiDung.split(",");
         for (int i = 0; i < a.length; i++) {
-            this.capNhatA(a[i], i + 1);
+            this.capNhat(a[i], i + 1);
         }
-        rewriteFileA();
+        rewriteFile();
     }
 
-    public void capNhatA(String noiDung, int viTriSua) throws IOException {
+    public void capNhat(String noiDung, int viTriSua) throws IOException {
         if (viTriSua == 1) {
             this.setMaMon(noiDung.toUpperCase());
         } else if (viTriSua == 2) {
@@ -83,11 +83,11 @@ public class ThucAn extends Menu {
         } else {
             this.anChay = Boolean.parseBoolean(noiDung);
         }
-        rewriteFileA();
+        rewriteFile();
     }
 
     //Phuong Thuc Ho Tro Xoa
-    public ThucAn timXoaA(String maMon) {
+    public ThucAn timXoa(String maMon) {
         ThucAn food = new ThucAn();
         for (ThucAn s : getMonAn()) {
             if (s.getMaMon().toLowerCase().equals(maMon.toLowerCase())) {
@@ -106,7 +106,7 @@ public class ThucAn extends Menu {
                 break;
             }
         }
-        rewriteFileA();
+        rewriteFile();
     }
 
     public static List<ThucAn> timThucAn(String noiDung, int i) throws FileNotFoundException {
@@ -163,7 +163,7 @@ public class ThucAn extends Menu {
     }
 
     //Viet lai//
-    public void rewriteFileA() throws IOException {
+    public void rewriteFile() throws IOException {
         try ( FileWriter fileWriter = new FileWriter(file, false)) {
             try ( PrintWriter writer = new PrintWriter(fileWriter)) {
                 for (ThucAn s : getMonAn()) {
