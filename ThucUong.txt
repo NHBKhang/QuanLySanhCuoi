@@ -1,5 +1,0 @@
-200001,Pepsi,35000,PepsiCo,
-200002,Mirinda,35000,PepsiCo,
-200003,Fanta,35000,Cocacola,
-200004,Beer,40000,Heneiken,
-200005,Ruou Vang,300000,Chivas, 
