@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.mavenproject1;
+package com.mycompany.quanly;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,6 +22,8 @@ public class ThucUong extends Menu {
     private String hangSx;
     private final String url = "C:\\Data\\ThucUong";
     private File file = new File(getUrl());
+    
+    private String[] header = new String[] {"Ma Sanh","Ten Sanh","Vi Tri","Suc Chua"};
 
     public ThucUong(String maMon, String tenMon, int giaMon, String hangSx) {
         super(maMon, tenMon, giaMon);
@@ -63,15 +65,15 @@ public class ThucUong extends Menu {
         getMonUong().add(this);
     }
 
-    public void capNhat(String noiDung) throws IOException {
+    public void capNhatB(String noiDung) throws IOException {
         String[] b = noiDung.split(",");
         for (int i = 0; i < b.length; i++) {
-            this.capNhat(b[i], i + 1);
+            this.capNhatB(b[i], i + 1);
         }
-        rewriteFile();
+        rewriteFileB();
     }
 
-    public void capNhat(String noiDung, int viTriSua) throws IOException {
+    public void capNhatB(String noiDung, int viTriSua) throws IOException {
         if (viTriSua == 1) {
             this.setMaMon(noiDung.toUpperCase());
         } else if (viTriSua == 2) {
@@ -81,11 +83,11 @@ public class ThucUong extends Menu {
         } else {
             this.hangSx = (noiDung.toUpperCase());
         }
-        rewriteFile();
+        rewriteFileB();
     }
 
     //Phuong Thuc Ho Tro Xoa
-    public ThucUong timXoa(String maMon) {
+    public ThucUong timXoaB(String maMon) {
         ThucUong drink = new ThucUong();
         for (ThucUong x : getMonUong()) {
             if (x.getMaMon().toLowerCase().equals(maMon.toLowerCase())) {
@@ -104,7 +106,7 @@ public class ThucUong extends Menu {
                 break;
             }
         }
-        rewriteFile();
+        rewriteFileB();
     }
 
     public List<ThucUong> timThucUong(String noiDung, int i) throws FileNotFoundException {
@@ -158,7 +160,7 @@ public class ThucUong extends Menu {
         return maMon;
     }
 
-    public void rewriteFile() throws IOException {
+    public void rewriteFileB() throws IOException {
         try ( FileWriter fileWriter = new FileWriter(file, false)) {
             try ( PrintWriter writer = new PrintWriter(fileWriter)) {
                 for (ThucUong x : getMonUong()) {
@@ -219,4 +221,12 @@ public class ThucUong extends Menu {
     public static void setMonUong(List<ThucUong> aMonUong) {
         monUong = aMonUong;
     }
+
+    /**
+     * @return the header
+     */
+    public String[] getHeader() {
+        return header;
+    }
+
 }

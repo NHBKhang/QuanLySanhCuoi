@@ -78,12 +78,13 @@ public class SanhCuoi {
             rewriteFile();
 	}
         
-        //  phuong thuc ho tro cap nhat
+        //  phuong thuc ho tro cap nhat va xoa
         public SanhCuoi tim(String maSanh){
             SanhCuoi sanh = new SanhCuoi();
             for (SanhCuoi s: cacSanh){
                 if (s.maSanh.toLowerCase().equals(maSanh.toLowerCase())){
                     sanh = s;
+                    break;
                 }
             }
             return sanh;

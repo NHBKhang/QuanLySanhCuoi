@@ -2,7 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.mavenproject1;
+package com.mycompany.quanly;
+
+import java.util.List;
 
 
 /**
@@ -13,12 +15,20 @@ abstract class Menu {
     protected String maMon;
     protected String tenMon;
     protected int giaMon;
+    
+    private String form = "%-10s%-20s%-10s%-10s%n";
+    private String[] header;
 
-    public Menu(String maMon, String tenMon, int giaMon) {
+    protected Menu(String maMon, String tenMon, int giaMon) {
         this.maMon = maMon;
-        this.tenMon = tenMon.toUpperCase();
+        if (tenMon != null)
+            this.tenMon = tenMon.toUpperCase();
         this.giaMon = giaMon;
     }
+    
+    protected Menu(){}
+    
+    protected abstract void init();
 
     /**
      * @return the maMon
@@ -61,6 +71,18 @@ abstract class Menu {
     public void setGiaMon(int giaMon) {
         this.giaMon = giaMon;
     }
+
+    /**
+     * @return the form
+     */
+    public String getForm() {
+        return form;
+    }
+
+    /**
+     * @return the header
+     */
+    public abstract String[] getHeader();
 
     
 }

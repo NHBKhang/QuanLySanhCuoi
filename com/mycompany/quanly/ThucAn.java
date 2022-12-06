@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.mavenproject1;
+package com.mycompany.quanly;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,14 +19,18 @@ import java.util.Scanner;
  */
 public class ThucAn extends Menu {
 
-    private boolean anChay= true ;
-    private final String url = "C:\\Data\\ThucAn";
+    private boolean anChay = true;
+    private final String url = "D:\\Data\\ThucAn.txt";
     private File file = new File(getUrl());
+    
+    private String[] header = new String[] {"Ma Mon","Ten Mon","Gia Mon","An Chay"};
 
     public ThucAn(String maMon, String tenMon, int giaMon, boolean anChay) {
         super(maMon, tenMon, giaMon);
         this.anChay = anChay;
     }
+    
+    public ThucAn() {}
 
     private static List<ThucAn> monAn = new ArrayList<>();
 
@@ -49,7 +53,7 @@ public class ThucAn extends Menu {
     }
 
     //Them phan tu//
-    public void themThucAn() throws FileNotFoundException, IOException {
+    public void them() throws FileNotFoundException, IOException {
         try ( FileWriter fileWriter = new FileWriter(getFile(), true)) {
             try ( PrintWriter writer = new PrintWriter(fileWriter)) {
                 writer.print(this.getMaMon() + ",");
@@ -86,30 +90,24 @@ public class ThucAn extends Menu {
         rewriteFile();
     }
 
-    //Phuong Thuc Ho Tro Xoa
+    //  phuong thuc ho tro cap nhat va xoa
     public ThucAn timXoa(String maMon) {
         ThucAn food = new ThucAn();
         for (ThucAn s : getMonAn()) {
             if (s.getMaMon().toLowerCase().equals(maMon.toLowerCase())) {
                 food = s;
+                break;
             }
         }
         return food;
     }
 
     public void xoaThucAn(String ma) throws IOException {
-        for (ThucAn s : getMonAn()) {
-            if (s.maMon.toLowerCase().equals(ma.toLowerCase())) {
-                System.out.println(s.maMon.toLowerCase().equals(ma.toLowerCase()));
-                System.out.println(s.maMon);
-                getMonAn().remove(s);
-                break;
-            }
-        }
+        monAn.remove(this);
         rewriteFile();
     }
 
-    public static List<ThucAn> timThucAn(String noiDung, int i) throws FileNotFoundException {
+    public List<ThucAn> traCuu(String noiDung, int i) throws FileNotFoundException {
         List<ThucAn> ta = new ArrayList<>();
         for (ThucAn food : getMonAn()) {
             if (i == 0) {
@@ -179,9 +177,41 @@ public class ThucAn extends Menu {
         }
     }
 
-    public ThucAn() {
-        this(null, null, 0, false);
-    }
+    
+    public static void hienThi(List<ThucAn> thucAn, ThucAn ta){
+            System.out.format(ta.getForm(), ta.getHeader());
+            for (Object[] row : toTable(thucAn, thucAn.size())){
+                System.out.format(ta.getForm(), row);
+            }
+        }
+        
+        public static void hienThi(ThucAn thucAn){
+            System.out.format(thucAn.getForm(), thucAn.getHeader());
+            Object[] sanh = new String[] {thucAn.maMon,
+                                         thucAn.tenMon,
+                                         String.valueOf(thucAn.giaMon),
+                                         (thucAn.anChay == true? "Co": "Khong")};
+            System.out.format(thucAn.getForm(), sanh);
+        }
+        
+        public static void hienThiFile(ThucAn thucAn){
+                System.out.format(thucAn.getForm(), thucAn.getHeader());
+                for (Object[] row : toTable(getMonAn(), getMonAn().size())){
+                    System.out.format(thucAn.getForm(), row);
+               }
+        }
+        
+        //  tao bang
+        private static Object[][] toTable(List<ThucAn> an, int size) {
+            final Object[][] table = new String[size][];
+            for (int i = 0; i < size; i++){
+                table[i] = new String[] {an.get(i).maMon,
+                                         an.get(i).tenMon,
+                                         String.valueOf(an.get(i).giaMon),
+                                         (an.get(i).anChay == true? "Co": "Khong")};
+            }
+            return table;
+        }
 
     /**
      * @return the anChay
@@ -223,5 +253,12 @@ public class ThucAn extends Menu {
      */
     public static void setMonAn(List<ThucAn> aMonAn) {
         monAn = aMonAn;
+    }
+
+    /**
+     * @return the header
+     */
+    public String[] getHeader() {
+        return header;
     }
 }
