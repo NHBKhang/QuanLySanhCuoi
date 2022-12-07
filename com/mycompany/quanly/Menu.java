@@ -16,8 +16,7 @@ abstract class Menu {
     protected String tenMon;
     protected int giaMon;
     
-    private String form = "%-10s%-20s%-10s%-10s%n";
-    private String[] header;
+    protected String form = "%-10s%-20s%-12s%-10s%n";
 
     protected Menu(String maMon, String tenMon, int giaMon) {
         this.maMon = maMon;

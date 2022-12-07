@@ -20,21 +20,23 @@ import java.util.Scanner;
 public class ThucUong extends Menu {
 
     private String hangSx;
-    private final String url = "C:\\Data\\ThucUong";
-    private File file = new File(getUrl());
+    private final String url = "D:\\Data\\ThucUong.txt";
+    private File file = new File(url);
     
-    private String[] header = new String[] {"Ma Sanh","Ten Sanh","Vi Tri","Suc Chua"};
+    private String[] header = new String[]{"Ma Mon","Ten Mon","Gia Mon","Hang San Xuat"};
 
     public ThucUong(String maMon, String tenMon, int giaMon, String hangSx) {
         super(maMon, tenMon, giaMon);
         this.hangSx = hangSx;
     }
+    
+    public ThucUong(){}
 
     private static List<ThucUong> monUong = new ArrayList<>();
 
     public void init() {
         ThucUong tu = new ThucUong();
-        try ( Scanner d = new Scanner("C:\\Data\\ThucUong.txt")) {
+        try ( Scanner d = new Scanner(file)) {
             d.useDelimiter(",");
             while (d.hasNext()) {
                 String maMon = d.next();
@@ -50,12 +52,12 @@ public class ThucUong extends Menu {
         }
     }
 
-    public void themThucUong() throws FileNotFoundException, IOException {
+    public void them() throws FileNotFoundException, IOException {
         try ( FileWriter fileWriter = new FileWriter(getFile(), true)) {
             try ( PrintWriter writer = new PrintWriter(fileWriter)) {
-                writer.print(this.getMaMon() + ",");
-                writer.print(this.getTenMon() + ",");
-                writer.print(Integer.toString(this.getGiaMon()) + ",");
+                writer.print(this.maMon + ",");
+                writer.print(this.tenMon + ",");
+                writer.print(Integer.toString(this.giaMon) + ",");
                 writer.print(this.hangSx + ",");
                 writer.println();
             }
@@ -65,15 +67,15 @@ public class ThucUong extends Menu {
         getMonUong().add(this);
     }
 
-    public void capNhatB(String noiDung) throws IOException {
+    public void capNhat(String noiDung) throws IOException {
         String[] b = noiDung.split(",");
         for (int i = 0; i < b.length; i++) {
-            this.capNhatB(b[i], i + 1);
+            this.capNhat(b[i], i + 1);
         }
-        rewriteFileB();
+        rewriteFile();
     }
 
-    public void capNhatB(String noiDung, int viTriSua) throws IOException {
+    public void capNhat(String noiDung, int viTriSua) throws IOException {
         if (viTriSua == 1) {
             this.setMaMon(noiDung.toUpperCase());
         } else if (viTriSua == 2) {
@@ -83,40 +85,30 @@ public class ThucUong extends Menu {
         } else {
             this.hangSx = (noiDung.toUpperCase());
         }
-        rewriteFileB();
+        rewriteFile();
     }
 
     //Phuong Thuc Ho Tro Xoa
-    public ThucUong timXoaB(String maMon) {
+    public ThucUong tim(String maMon) {
         ThucUong drink = new ThucUong();
         for (ThucUong x : getMonUong()) {
             if (x.getMaMon().toLowerCase().equals(maMon.toLowerCase())) {
                 drink = x;
+                break;
             }
         }
         return drink;
     }
 
     public void xoaThucUong(String ma) throws IOException {
-        for (ThucUong x : getMonUong()) {
-            if (x.maMon.toLowerCase().equals(ma.toLowerCase())) {
-                System.out.println(x.maMon.toLowerCase().equals(ma.toLowerCase()));
-                System.out.println(x.maMon);
-                getMonUong().remove(x);
-                break;
-            }
-        }
-        rewriteFileB();
+        monUong.remove(this);
+        rewriteFile();
     }
 
-    public List<ThucUong> timThucUong(String noiDung, int i) throws FileNotFoundException {
+    public List<ThucUong> tim(String noiDung, int i) throws FileNotFoundException {
         List<ThucUong> tu = new ArrayList<>();
         for (ThucUong drink : getMonUong()) {
-            if (i == 0) {
-                if (drink.maMon.toLowerCase().contains(noiDung.toLowerCase())) {
-                    tu.add(drink);
-                }
-            } else if (i == 1) {
+            if (i == 1) {
                 if (drink.tenMon.toLowerCase().contains(noiDung.toLowerCase())) {
                     tu.add(drink);
                 }
@@ -160,7 +152,7 @@ public class ThucUong extends Menu {
         return maMon;
     }
 
-    public void rewriteFileB() throws IOException {
+    public void rewriteFile() throws IOException {
         try ( FileWriter fileWriter = new FileWriter(file, false)) {
             try ( PrintWriter writer = new PrintWriter(fileWriter)) {
                 for (ThucUong x : getMonUong()) {
@@ -175,10 +167,41 @@ public class ThucUong extends Menu {
             System.out.println(ex);
         }
     }
-
-    ThucUong() {
-        this(null, null, 0, null);
-    }
+    
+     public static void hienThi(List<ThucUong> thucUong, ThucUong tu){
+            System.out.format(tu.getForm(), tu.getHeader());
+            for (Object[] row : toTable(thucUong, thucUong.size())){
+                System.out.format(tu.getForm(), row);
+            }
+        }
+        
+        public static void hienThi(ThucUong thucUong){
+            System.out.format(thucUong.getForm(), thucUong.getHeader());
+            Object[] row = new String[] {thucUong.maMon,
+                                         thucUong.tenMon,
+                                         String.valueOf(thucUong.giaMon),
+                                         thucUong.hangSx};
+            System.out.format(thucUong.getForm(), row);
+        }
+        
+        public static void hienThiFile(ThucUong tu){
+                System.out.format(tu.getForm(), tu.getHeader());
+                for (Object[] row : toTable(getMonUong(), getMonUong().size())){
+                    System.out.format(tu.getForm(), row);
+               }
+        }
+             
+        //  tao bang
+        private static Object[][] toTable(List<ThucUong> uong, int size) {
+            final Object[][] table = new String[size][];
+            for (int i = 0; i < size; i++){
+                table[i] = new String[] {uong.get(i).maMon,
+                                         uong.get(i).tenMon,
+                                         String.valueOf(uong.get(i).giaMon),
+                                         uong.get(i).hangSx};
+            }
+            return table;
+        }
 
     /**
      * @return the hangSx
@@ -204,7 +227,7 @@ public class ThucUong extends Menu {
     /**
      * @return the monUong
      */
-    public List<ThucUong> getMonUong() {
+    public static List<ThucUong> getMonUong() {
         return monUong;
     }
 

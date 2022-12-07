@@ -10,6 +10,7 @@ import static com.mycompany.quanly.SanhCuoi.hienThiFile;
 import static com.mycompany.quanly.DichVu.hienThi;
 import static com.mycompany.quanly.DichVu.hienThiFile;
 import static com.mycompany.quanly.ThucAn.hienThiFile;
+import static com.mycompany.quanly.ThucUong.hienThiFile;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -34,10 +35,12 @@ public class QuanLy {
         SanhCuoi sc = new SanhCuoi();
         DichVu dv = new DichVu();
         ThucAn ta = new ThucAn();
+        ThucUong tu = new ThucUong();
         sc.init();
         dv.init();
         ta.init();
-        hienThiFile(ta);
+        tu.init();
+        hienThiFile(tu);
         
 //        System.out.print("Hãy nhập tên sảnh:");
 //        String tenSanh = scanner.nextLine();

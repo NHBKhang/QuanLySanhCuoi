@@ -104,10 +104,10 @@ public class DichVu {
             System.out.format(dichVu.getForm(), row);
         }
         
-        public static void hienThiFile(DichVu dichVu){
-                System.out.format(dichVu.getForm(), dichVu.getHeader());
+        public static void hienThiFile(DichVu dv){
+                System.out.format(dv.getForm(), dv.getHeader());
                 for (Object[] row : toTable(getCacDichVu(),getCacDichVu().size())){
-                    System.out.format(dichVu.getForm(), row);
+                    System.out.format(dv.getForm(), row);
                }
         }
         

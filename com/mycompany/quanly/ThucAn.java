@@ -21,7 +21,7 @@ public class ThucAn extends Menu {
 
     private boolean anChay = true;
     private final String url = "D:\\Data\\ThucAn.txt";
-    private File file = new File(getUrl());
+    private File file = new File(url);
     
     private String[] header = new String[] {"Ma Mon","Ten Mon","Gia Mon","An Chay"};
 
@@ -91,7 +91,7 @@ public class ThucAn extends Menu {
     }
 
     //  phuong thuc ho tro cap nhat va xoa
-    public ThucAn timXoa(String maMon) {
+    public ThucAn tim(String maMon) {
         ThucAn food = new ThucAn();
         for (ThucAn s : getMonAn()) {
             if (s.getMaMon().toLowerCase().equals(maMon.toLowerCase())) {
@@ -102,7 +102,7 @@ public class ThucAn extends Menu {
         return food;
     }
 
-    public void xoaThucAn(String ma) throws IOException {
+    public void xoa(String ma) throws IOException {
         monAn.remove(this);
         rewriteFile();
     }
@@ -110,11 +110,7 @@ public class ThucAn extends Menu {
     public List<ThucAn> traCuu(String noiDung, int i) throws FileNotFoundException {
         List<ThucAn> ta = new ArrayList<>();
         for (ThucAn food : getMonAn()) {
-            if (i == 0) {
-                if (food.maMon.toLowerCase().contains(noiDung.toLowerCase())) {
-                    ta.add(food);
-                }
-            } else if (i == 1) {
+            if (i == 1) {
                 if (food.tenMon.toLowerCase().contains(noiDung.toLowerCase())) {
                     ta.add(food);
                 }
@@ -187,17 +183,17 @@ public class ThucAn extends Menu {
         
         public static void hienThi(ThucAn thucAn){
             System.out.format(thucAn.getForm(), thucAn.getHeader());
-            Object[] sanh = new String[] {thucAn.maMon,
+            Object[] row = new String[] {thucAn.maMon,
                                          thucAn.tenMon,
                                          String.valueOf(thucAn.giaMon),
                                          (thucAn.anChay == true? "Co": "Khong")};
-            System.out.format(thucAn.getForm(), sanh);
+            System.out.format(thucAn.getForm(), row);
         }
         
-        public static void hienThiFile(ThucAn thucAn){
-                System.out.format(thucAn.getForm(), thucAn.getHeader());
+        public static void hienThiFile(ThucAn ta){
+                System.out.format(ta.getForm(), ta.getHeader());
                 for (Object[] row : toTable(getMonAn(), getMonAn().size())){
-                    System.out.format(thucAn.getForm(), row);
+                    System.out.format(ta.getForm(), row);
                }
         }
         

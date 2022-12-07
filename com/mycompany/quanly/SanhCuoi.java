@@ -154,10 +154,10 @@ public class SanhCuoi {
             System.out.format(sanhCuoi.getForm(), sanh);
         }
         
-        public static void hienThiFile(SanhCuoi sanhCuoi){
-                System.out.format(sanhCuoi.getForm(), sanhCuoi.getHeader());
+        public static void hienThiFile(SanhCuoi sc){
+                System.out.format(sc.getForm(), sc.getHeader());
                 for (Object[] row : toTable(getCacSanh(), getCacSanh().size())){
-                    System.out.format(sanhCuoi.getForm(), row);
+                    System.out.format(sc.getForm(), row);
                }
         }
         
