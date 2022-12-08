@@ -32,9 +32,7 @@ abstract class Menu {
     /**
      * @return the maMon
      */
-    public String getMaMon() {
-        return maMon;
-    }
+    public abstract String getMaMon();
 
     /**
      * @param maMon the maMon to set

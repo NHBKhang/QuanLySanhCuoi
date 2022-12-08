@@ -28,6 +28,7 @@ public class SanhCuoi {
         
         private final String ngatFile =",";
         
+        private GiaThue gia;
         
         private static List<SanhCuoi> cacSanh = new ArrayList<>();
         
@@ -176,7 +177,6 @@ public class SanhCuoi {
         
 
         
-        
     //      phuong thuc khoi tao sanh cuoi da co
             public SanhCuoi(String maSanhCuoi, String tenSanh, int viTri, long sucChua, long giaThue){
                 this.maSanh = maSanhCuoi.toUpperCase();
@@ -184,7 +184,6 @@ public class SanhCuoi {
                 this.viTri = viTri;
                 this.sucChua = sucChua;
                 this.giaThue = giaThue;
-
             }        
         
     //      phuong thuc khoi tao khong tham so
@@ -364,8 +363,18 @@ public class SanhCuoi {
         } 
     }
 
-    List<DichVu> getCacDichVu() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    /**
+     * @param gia the gia to set
+     */
+    public void setGia(GiaThue gia) {
+        this.gia = gia;
+    }
+
+    /**
+     * @return the giaTong
+     */
+    public long getGiaTong() {
+        return (long) (gia.getHeSoTong()*this.giaThue);
     }
 
 

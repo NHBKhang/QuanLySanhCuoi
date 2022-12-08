@@ -257,4 +257,9 @@ public class ThucAn extends Menu {
     public String[] getHeader() {
         return header;
     }
+
+    @Override
+    public String getMaMon() {
+        return super.maMon;
+    }
 }

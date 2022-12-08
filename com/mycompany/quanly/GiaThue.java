@@ -27,7 +27,6 @@ public class GiaThue {
         
 
 	private boolean cuoiTuan;
-        private static double heSoCuoiTuan;
         
         private SanhCuoi sanhCuoi;
         
@@ -144,17 +143,6 @@ public class GiaThue {
      *
      * @return
      */
-    public boolean isValid() {
-            String dateFormat = "dd/MM/yyyy";
-            DateFormat sdf = new SimpleDateFormat(dateFormat);
-            sdf.setLenient(false);
-            try {
-                sdf.parse(this.getDate());
-            } catch (ParseException e) {
-                return false;
-            }
-            return true;
-        }
         
     /**
      * @return the cuoiTuan
@@ -175,20 +163,6 @@ public class GiaThue {
         else {
             return false;
         }
-    }
-
-    /**
-     * @return the heSoCuoiTuan
-     */
-    public static double getHeSoCuoiTuan() {
-        return heSoCuoiTuan;
-    }
-
-    /**
-     * @param heSoCuoiTuan
-     */
-    public static void setHeSoCuoiTuan(double heSoCuoiTuan) {
-        GiaThue.heSoCuoiTuan = heSoCuoiTuan;
     }
 
     /**

@@ -252,4 +252,9 @@ public class ThucUong extends Menu {
         return header;
     }
 
+    @Override
+    public String getMaMon() {
+        return super.maMon;
+    }
+
 }
