@@ -35,7 +35,6 @@ public class ThucAn extends Menu {
     private static List<ThucAn> monAn = new ArrayList<>();
 
     public void init() {
-        ThucAn ta = new ThucAn();
         try ( Scanner c = new Scanner(file)) {
             c.useDelimiter(",");
             while (c.hasNext()) {
@@ -44,7 +43,7 @@ public class ThucAn extends Menu {
                 int giaMon = c.nextInt();
                 boolean anChay = c.nextBoolean();
                 ThucAn n = new ThucAn(maMon, tenMon, giaMon, anChay);
-                getMonAn().add(n);
+                monAn.add(n);
                 c.nextLine();
             }
         } catch (Exception ex) {
@@ -261,5 +260,57 @@ public class ThucAn extends Menu {
     @Override
     public String getMaMon() {
         return super.maMon;
+    }
+
+    List<ThucAn> Nhap() {
+        Scanner scanner = new Scanner(System.in);
+        int flag = -1, chon;
+        String mon;
+        List<ThucAn> thucAn = new ArrayList<>();
+        ThucAn ta = new ThucAn();
+        hienThiFile(ta);
+        scanner.useDelimiter("\n");
+        System.out.println("(Chon toi thieu 5 mon)");
+        do{
+            do {
+                System.out.print("Chon mon (vd: 1,2): ");
+                mon = scanner.next();
+                String[] cacMon = mon.split(",");
+                for (int i = 0; i < cacMon.length; i++){
+                    try {
+                        int s = Integer.parseInt(cacMon[i].trim());
+                        if (s <= getMonAn().size())
+                            cacMon[i] = String.format("1%05d", s);
+                    } catch (Exception e) {
+                        flag = -1;
+                    }
+                }
+                for (ThucAn t: getMonAn()){
+                    for (String a: cacMon){
+                        if (t.getMaMon().equals(a)){
+                            thucAn.add(t);
+                            flag = 0;
+                        }
+                    }
+                }
+            }
+            while (flag == -1 || thucAn.size() < 5);
+            do{
+                System.out.print("Luu lua chon? \t 1.Yes  |  2.No\nChon: ");
+                String s = scanner.nextLine();
+                try {
+                    chon = Integer.parseInt(s);
+                } catch (Exception e){
+                    chon = -1;
+                }
+            }
+            while (chon!=1&&chon!=2);
+            if (chon ==1)
+                break;
+            else
+                continue;
+        }
+        while (true);
+        return thucAn;
     }
 }

@@ -34,7 +34,7 @@ public class GiaThue {
         File file = new File(url);
         
         private String date;
-        private String buoi;
+        private HeSoGiaThue buoi;
         
     /**
      *
@@ -99,7 +99,7 @@ public class GiaThue {
 
 	public GiaThue(HeSoGiaThue heSoGia, String date,  double heSoKhac) {
             this.heSoGiaThue = heSoGia.getHeSoThoiDiem();
-            this.buoi = heSoGia.getThoiDiem();
+            this.buoi = heSoGia;
             this.date = date;
             this.heSoKhac = heSoKhac;
             if (isCuoiTuan(date)){
@@ -111,7 +111,7 @@ public class GiaThue {
 	}
         public GiaThue(HeSoGiaThue heSoGia, String date) throws FileNotFoundException {
             this.heSoGiaThue = heSoGia.getHeSoThoiDiem();
-            this.buoi = heSoGia.getThoiDiem();
+            this.buoi = heSoGia;
             this.date = date;
             try (Scanner scanner = new Scanner (file)){
                 while (scanner.hasNextLine()){
@@ -208,6 +208,14 @@ public class GiaThue {
             this.heSoTong = this.heSoGiaThue + this.heSoKhac - 1;
         }
     }
+
+    /**
+     * @return the buoi
+     */
+    public HeSoGiaThue getBuoi() {
+        return buoi;
+    }
+
 
 
 }

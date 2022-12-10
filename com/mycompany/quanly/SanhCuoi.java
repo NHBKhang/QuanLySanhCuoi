@@ -1,6 +1,7 @@
 package com.mycompany.quanly;
 
 
+import static com.mycompany.quanly.QuanLy.isValid;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -344,8 +345,7 @@ public class SanhCuoi {
     }
 
 
-    public void init() throws FileNotFoundException {
-        SanhCuoi sc = new SanhCuoi();
+    public void init() throws FileNotFoundException {;
         try (Scanner scanner = new Scanner(file)){
             scanner.useDelimiter(",");
             while (scanner.hasNextLine()){
@@ -355,7 +355,7 @@ public class SanhCuoi {
                 long sucChua = Long.parseLong(scanner.next());
                 long giaThue = Long.parseLong(scanner.next());
                 SanhCuoi sanh = new SanhCuoi(maSC, tenSanh, viTri, sucChua, giaThue);
-                sc.getCacSanh().add(sanh);
+                cacSanh.add(sanh);
                 scanner.nextLine();
             }
         } catch (Exception e){
@@ -376,6 +376,69 @@ public class SanhCuoi {
     public long getGiaTong() {
         return (long) (gia.getHeSoTong()*this.giaThue);
     }
+        /**
+     * @return the gia
+     */
+    public GiaThue getGia() {
+        return gia;
+    }
+
+    SanhCuoi Nhap() {
+        Scanner scanner = new Scanner(System.in);
+        int flag = -1, chon, buoi;
+        String ma, date;
+        SanhCuoi sanh = new SanhCuoi();
+        hienThiFile(sanh);
+        do{
+            do{
+                System.out.print("Chon sanh (vd:S001): ");
+                ma = scanner.next().toUpperCase();
+                for (SanhCuoi s: getCacSanh()){
+                    if (s.getMaSanh().equals(ma.trim())){
+                        sanh = s;
+                        flag = 0;
+                        break;
+                    }
+                }
+            }
+            while (flag == -1);
+            do{
+                System.out.print("Nhap ngay (dd/mm/yyyy): ");
+                date = scanner.next();
+            }
+            while (!isValid(date));
+            do{
+                System.out.print("1.Sang | 2.Chieu | 3.Toi\nChon Buoi: ");
+                buoi = scanner.nextInt();
+            }
+            while (buoi!=1&&buoi!=2&&buoi!=3);
+            do{
+                System.out.print("Luu lua chon? \t 1.Yes  |  2.No\nChon: ");
+                String s = scanner.nextLine();
+                try {
+                    chon = Integer.parseInt(s);
+                } catch (Exception e){
+                    chon = -1;
+                }
+            }
+            while (chon!=1&&chon!=2);
+            if (chon ==1)
+                break;
+            else
+                continue;
+        }
+        while (true);
+        GiaThue gia = null;
+        try {
+            gia = new GiaThue(new HeSoGiaThue(buoi - 1), date);
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+        sanh.setGia(gia);
+            return sanh;
+    }
+
+
 
 
 }

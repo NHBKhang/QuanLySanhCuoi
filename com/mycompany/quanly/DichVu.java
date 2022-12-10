@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -18,11 +19,11 @@ import java.util.Scanner;
  * @author KHANG
  */
 public class DichVu {
-    private String maDichVu;
+    protected String maDichVu;
     
-    private String tenDichVu;
+    protected String tenDichVu;
     
-    private long giaDichVu;
+    protected long giaDichVu;
     
     private String ghiChu;
     
@@ -63,7 +64,7 @@ public class DichVu {
     //        phuong thuc ho tro tao ma so moi
         private String nextMa(String ma){
             if (ma == null){
-                ma = "D004";
+                ma = "D001";
             }
             else {
                 String[] catMa = ma.split("D") ;
@@ -89,14 +90,14 @@ public class DichVu {
             return ma;
         }
         
-        public static void hienThi(List<DichVu> dichVu, DichVu dv){
+        public static final void hienThi(List<DichVu> dichVu, DichVu dv){
             System.out.format(dv.getForm(), dv.getHeader());
             for (Object[] row : toTable(dichVu, dichVu.size())){
                 System.out.format(dv.getForm(), row);
             }
         }
         
-        public static void hienThi(DichVu dichVu){
+        public static final void hienThi(DichVu dichVu){
             System.out.format(dichVu.getForm(), dichVu.getHeader());
             Object[] row = new String[] {dichVu.maDichVu,
                                          dichVu.tenDichVu,
@@ -104,7 +105,7 @@ public class DichVu {
             System.out.format(dichVu.getForm(), row);
         }
         
-        public static void hienThiFile(DichVu dv){
+        public static final void hienThiFile(DichVu dv){
                 System.out.format(dv.getForm(), dv.getHeader());
                 for (Object[] row : toTable(getCacDichVu(),getCacDichVu().size())){
                     System.out.format(dv.getForm(), row);
@@ -117,7 +118,8 @@ public class DichVu {
             for (int i = 0; i < size; i++){
                 table[i] = new String[] {dichVu.get(i).maDichVu,
                                          dichVu.get(i).tenDichVu,
-                                         String.valueOf(dichVu.get(i).giaDichVu)};
+                                         (dichVu.get(i).giaDichVu == 0? "- - - -" :
+                                         String.valueOf(dichVu.get(i).giaDichVu))};
             }
             return table;
         }
@@ -129,7 +131,7 @@ public class DichVu {
                     writer.print(this.maDichVu + ",");
                     writer.print(this.tenDichVu + ",");
                     writer.print(Long.toString(this.giaDichVu) + ",");
-                    writer.print(this.ghiChu + ",");
+                    writer.print(this.getGhiChu() + ",");
                     writer.println();
                 }
             } catch (Exception e){
@@ -157,7 +159,7 @@ public class DichVu {
                 this.giaDichVu = Long.parseLong(noiDung);
             }
             else{
-                this.ghiChu = noiDung;
+                this.setGhiChu(noiDung);
             }
             rewriteFile();
 	}
@@ -188,7 +190,7 @@ public class DichVu {
                         writer.print(s.maDichVu + ",");
                         writer.print(s.tenDichVu + ",");
                         writer.print(Long.toString(s.giaDichVu) + ",");
-                        writer.print(s.ghiChu +",");
+                        writer.print(s.getGhiChu() +",");
                         writer.println();
                     }
                 }
@@ -208,11 +210,10 @@ public class DichVu {
 	}    
         
     public void init() throws FileNotFoundException {
-        DichVu dv = new DichVu();
-        dv.getCacDichVu().add(new Karaoke());
-        dv.getCacDichVu().add(new TrangTriPhoiCanh());
-        dv.getCacDichVu().add(new ThueCaSi());
-        try (Scanner scanner = new Scanner(dv.getFile())){
+        cacDichVu.add(new Karaoke());
+        cacDichVu.add(new TrangTriPhoiCanh());
+        cacDichVu.add(new ThueCaSi());
+        try (Scanner scanner = new Scanner(file)){
             scanner.useDelimiter(",");
             while (scanner.hasNextLine()){
                 String maDV = scanner.next();
@@ -220,7 +221,7 @@ public class DichVu {
                 long gia = Long.parseLong(scanner.next());
                 String ghiChu = scanner.next();
                 DichVu dichVu = new DichVu(maDV, tenDV, gia, ghiChu);
-                dv.getCacDichVu().add(dichVu);
+                cacDichVu.add(dichVu);
                 scanner.nextLine();
             }
         } catch (Exception e){
@@ -297,6 +298,77 @@ public class DichVu {
     public String[] getHeader() {
         return header;
     }
+
+    List<DichVu> Nhap() {
+        int flag = -1, chon, soBan;
+        String ma, date, mon, dvu;
+        Scanner scanner = new Scanner(System.in);
+        List<DichVu> dichVu = new ArrayList<>();
+        DichVu dv = new DichVu();
+        hienThiFile(dv);
+        scanner.useDelimiter("\n");
+        System.out.println("(Nhap so 0 neu khong chon dich vu di kem)");
+        do{
+            do {
+                System.out.print("Chon dich vu (vd: D001,..): ");
+                dvu = scanner.next().toUpperCase();
+                String[] cacDV = dvu.split(",");
+                int i = 1;
+                try {
+                    i = Integer.parseInt(cacDV[0].trim());
+                } catch (Exception e){
+                    flag = -1;
+                }
+                if (i == 0) flag = 0;
+                else {
+                    for (String s: cacDV){
+                        for (DichVu d: getCacDichVu()){
+                            if (s.trim().equals(d.getMaDichVu())){
+                                dichVu.add(d);
+                                flag = 0;
+                            }
+                        }
+                    }
+                }
+            }
+            while (flag == -1);
+            do{
+                System.out.print("Luu lua chon? \t 1.Yes  |  2.No\nChon: ");
+                String s = scanner.nextLine();
+                try {
+                    chon = Integer.parseInt(s);
+                } catch (Exception e){
+                    chon = -1;
+                }
+            }
+            while (chon!=1&&chon!=2);
+            if (chon ==1)
+                break;
+            else
+                continue;
+        }
+        while (true);
+        return dichVu;
+    }
+
+    /**
+     * @return the ghiChu
+     */
+    public String getGhiChu() {
+        return ghiChu;
+    }
+
+    /**
+     * @param ghiChu the ghiChu to set
+     */
+    public void setGhiChu(String ghiChu) {
+        this.ghiChu = ghiChu;
+    }
+
+    void xuat(String form, NumberFormat vnFormat, String dv) {
+        System.out.printf(form, this.tenDichVu, vnFormat.format(this.giaDichVu) + dv);
+    }
+    
     
     
 }

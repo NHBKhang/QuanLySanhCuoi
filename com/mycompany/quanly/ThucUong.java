@@ -35,7 +35,6 @@ public class ThucUong extends Menu {
     private static List<ThucUong> monUong = new ArrayList<>();
 
     public void init() {
-        ThucUong tu = new ThucUong();
         try ( Scanner d = new Scanner(file)) {
             d.useDelimiter(",");
             while (d.hasNext()) {
@@ -44,7 +43,7 @@ public class ThucUong extends Menu {
                 int giaMon = d.nextInt();
                 String hangSx = d.next();
                 ThucUong m = new ThucUong(maMon, tenMon, giaMon, hangSx);
-                getMonUong().add(m);
+                monUong.add(m);
                 d.nextLine();
             }
         } catch (Exception ex) {
@@ -255,6 +254,57 @@ public class ThucUong extends Menu {
     @Override
     public String getMaMon() {
         return super.maMon;
+    }
+
+    List<ThucUong> Nhap() {
+        Scanner scanner = new Scanner(System.in);
+        int flag = -1, chon;
+        String mon;
+        List<ThucUong> thucUong = new ArrayList<>();
+        ThucUong tu = new ThucUong();
+        hienThiFile(tu);
+        scanner.useDelimiter("\n");
+        do {
+            do {
+                System.out.print("Chon nuoc uong (vd: 1,2): ");
+                mon = scanner.next();
+                String[] cacMon = mon.split(",");
+                for (int i = 0; i < cacMon.length; i++){
+                    try {
+                        int s = Integer.parseInt(cacMon[i].trim());
+                        if (s <= getMonUong().size())
+                            cacMon[i] = String.format("2%05d", s);
+                    } catch (Exception e) {
+                        flag = -1;
+                    }
+                }
+                for (ThucUong t: getMonUong()){
+                    for (String a: cacMon){
+                        if (t.getMaMon().equals(a)){
+                            thucUong.add(t);
+                            flag = 0;
+                        }
+                    }
+                }
+            }
+            while (flag == -1 || thucUong.size() < 1);
+            do{
+                System.out.print("Luu lua chon? \t 1.Yes  |  2.No\nChon: ");
+                String s = scanner.nextLine();
+                try {
+                    chon = Integer.parseInt(s);
+                } catch (Exception e){
+                    chon = -1;
+                }
+            }
+            while (chon!=1&&chon!=2);
+            if (chon ==1)
+                break;
+            else
+                continue;
+        }
+        while (true);
+        return thucUong;
     }
 
 }
