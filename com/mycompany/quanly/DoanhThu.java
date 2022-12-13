@@ -74,42 +74,44 @@ public class DoanhThu {
         System.out.printf("Nhap Quy:");
         int quy = dt.nextInt();
         System.out.printf("Nhap Nam:");
-        int year = dt.nextInt();
+        String nam = dt.next();
         int sum = 0;
         DoanhThu date = new DoanhThu();
         for (DoanhThu h : getDs()) {
             String[] catNgay = h.getNgay().split("/");
-            if (quy == 1) {
-                //for (DoanhThu h : getDs()) {
-                //String[] catNgay = h.getNgay().split("/");
-                if (Integer.parseInt(catNgay[1]) == Quy.QUY1.getM() || Integer.parseInt(catNgay[1]) == Quy.QUY1.getN() || Integer.parseInt(catNgay[1]) == Quy.QUY1.getK() && Integer.parseInt(catNgay[2]) == year) {
-                    sum = sum + h.getGiaTien();
+            if (catNgay[2].equals(nam)) {
+                if (quy == 1) {
+                    //for (DoanhThu h : getDs()) {
+                    //String[] catNgay = h.getNgay().split("/");
+                    if (Integer.parseInt(catNgay[1]) == Quy.QUY1.getM() || Integer.parseInt(catNgay[1]) == Quy.QUY1.getN() || Integer.parseInt(catNgay[1]) == Quy.QUY1.getK()) {
+                        sum = sum + h.getGiaTien();
+                    }
                 }
-            }
-            if (quy == 2) {
-                //for (DoanhThu h : getDs()) {
-                // String[] catNgay = h.getNgay().split("/");
-                if (Integer.parseInt(catNgay[1]) == Quy.QUY2.getM() || Integer.parseInt(catNgay[1]) == Quy.QUY2.getN() || Integer.parseInt(catNgay[1]) == Quy.QUY2.getK() && Integer.parseInt(catNgay[2]) == year) {
-                    sum = sum + h.getGiaTien();
+                if (quy == 2) {
+                    //for (DoanhThu h : getDs()) {
+                    // String[] catNgay = h.getNgay().split("/");
+                    if (Integer.parseInt(catNgay[1]) == Quy.QUY2.getM() || Integer.parseInt(catNgay[1]) == Quy.QUY2.getN() || Integer.parseInt(catNgay[1]) == Quy.QUY2.getK()) {
+                        sum = sum + h.getGiaTien();
+                    }
                 }
-            }
-            if (quy == 3) {
-                //for (DoanhThu h : getDs()) {
-                //String[] catNgay = h.getNgay().split("/");
-                if (Integer.parseInt(catNgay[1]) == Quy.QUY3.getM() || Integer.parseInt(catNgay[1]) == Quy.QUY3.getN() || Integer.parseInt(catNgay[1]) == Quy.QUY3.getK() && Integer.parseInt(catNgay[2]) == year) {
-                    sum = sum + h.getGiaTien();
+                if (quy == 3) {
+                    //for (DoanhThu h : getDs()) {
+                    //String[] catNgay = h.getNgay().split("/");
+                    if (Integer.parseInt(catNgay[1]) == Quy.QUY3.getM() || Integer.parseInt(catNgay[1]) == Quy.QUY3.getN() || Integer.parseInt(catNgay[1]) == Quy.QUY3.getK()) {
+                        sum = sum + h.getGiaTien();
+                    }
                 }
-            }
 
-            if (quy == 4) {
-                //for (DoanhThu h : getDs()) {
-                //String[] catNgay = h.getNgay().split("/");
-                if (Integer.parseInt(catNgay[1]) == Quy.QUY4.getM() || Integer.parseInt(catNgay[1]) == Quy.QUY4.getN() || Integer.parseInt(catNgay[1]) == Quy.QUY4.getK() && Integer.parseInt(catNgay[2]) == year) {
-                    sum = sum + h.getGiaTien();
+                if (quy == 4) {
+                    //for (DoanhThu h : getDs()) {
+                    //String[] catNgay = h.getNgay().split("/");
+                    if (Integer.parseInt(catNgay[1]) == Quy.QUY4.getM() || Integer.parseInt(catNgay[1]) == Quy.QUY4.getN() || Integer.parseInt(catNgay[1]) == Quy.QUY4.getK()) {
+                        sum = sum + h.getGiaTien();
+                    }
                 }
             }
         }
-        System.out.println("Doanh Thu Quy " + quy + "-" + year + " la:" + sum);
+        System.out.println("Doanh Thu Quy " + quy + "-" + nam + " la:" + sum);
     }
 
     public DoanhThu() {
