@@ -34,7 +34,7 @@ public class BuoiTiec {
     private int soBan;
     private int buoi;
     
-    private String url = "D:\\Data\\test.txt";
+    private String url = "D:\\Data\\ThongTinThue.txt";
     private File file = new File(url);
     
     public BuoiTiec() throws FileNotFoundException{
@@ -124,7 +124,7 @@ public class BuoiTiec {
                     else
                         print.print(",");
                 }
-                print.print(this.donGiaDV + this.donGiaMenu + this.donGiaSanh + ",");
+                print.print(this.donGiaDV + this.donGiaMenu + this.donGiaSanh + ",\n");
             }
         } catch (Exception e){
             System.out.println(e);

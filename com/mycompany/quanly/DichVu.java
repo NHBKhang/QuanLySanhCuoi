@@ -187,11 +187,13 @@ public class DichVu {
             try (FileWriter fileWriter = new FileWriter(file, false)){
                 try (PrintWriter writer = new PrintWriter(fileWriter)){
                     for (DichVu s: cacDichVu){
-                        writer.print(s.maDichVu + ",");
-                        writer.print(s.tenDichVu + ",");
-                        writer.print(Long.toString(s.giaDichVu) + ",");
-                        writer.print(s.getGhiChu() +",");
-                        writer.println();
+                        if (s.getClass() != new DichVu().getClass()){
+                            writer.print(s.maDichVu + ",");
+                            writer.print(s.tenDichVu + ",");
+                            writer.print(Long.toString(s.giaDichVu) + ",");
+                            writer.print(s.getGhiChu() +",");
+                            writer.println();
+                        }
                     }
                 }
             } catch (Exception e){
@@ -306,12 +308,11 @@ public class DichVu {
         List<DichVu> dichVu = new ArrayList<>();
         DichVu dv = new DichVu();
         hienThiFile(dv);
-        scanner.useDelimiter("\n");
         System.out.println("(Nhap so 0 neu khong chon dich vu di kem)");
         do{
             do {
                 System.out.print("Chon dich vu (vd: D001,..): ");
-                dvu = scanner.next().toUpperCase();
+                dvu = scanner.nextLine().toUpperCase();
                 String[] cacDV = dvu.split(",");
                 int i = 1;
                 try {
@@ -321,9 +322,14 @@ public class DichVu {
                 }
                 if (i == 0) flag = 0;
                 else {
-                    for (String s: cacDV){
+                    for (int x = 0; x < cacDV.length; x++){
+                        if (cacDV.length > 1){
+                            for (int y = x + 1; y < cacDV.length; y++){
+                                if (cacDV[x].trim().equals(cacDV[y].trim())) break;
+                            }
+                        }
                         for (DichVu d: getCacDichVu()){
-                            if (s.trim().equals(d.getMaDichVu())){
+                            if (cacDV[x].trim().equals(d.getMaDichVu())){
                                 dichVu.add(d);
                                 flag = 0;
                             }
@@ -342,7 +348,7 @@ public class DichVu {
                 }
             }
             while (chon!=1&&chon!=2);
-            if (chon ==1)
+            if (chon == 1)
                 break;
             else
                 continue;
@@ -369,6 +375,325 @@ public class DichVu {
         System.out.printf(form, this.tenDichVu, vnFormat.format(this.giaDichVu) + dv);
     }
     
-    
-    
-}
+    //   nhap cho quan ly
+    public void nhap(){
+        int chon = 0, flag = -1;
+        Scanner scanner = new Scanner(System.in);
+        hienThiFile(this);
+        System.out.println("1.Them | 2.Cap nhat | 3.Xoa | 4.Tra cuu");
+        do {
+            System.out.print("Chon: ");
+            String s = scanner.nextLine();
+            String[] cat = s.split(" ");
+            try {
+                chon = Integer.parseInt(cat[0]);
+                if (chon > 0 && chon < 5) flag = 0;
+                else flag = -1;
+            } catch (Exception e){
+                flag = -1;
+            }                
+        }
+        while (flag == -1);
+        //  them
+        DichVu dichVu = new DichVu();
+        if (chon == 1){
+            do{
+                flag = -1;
+                System.out.print("Nhap ten dich vu: ");
+                String tenDV = scanner.nextLine().toUpperCase();
+                long giaDV = 0;
+                String[] cat;
+                do{
+                    System.out.print("Nhap gia dich vu: ");
+                    String a = scanner.nextLine();            
+                    cat = a.split(" ");
+                    try {
+                        giaDV = Long.parseLong(cat[0].trim());
+                        if (giaDV > 10000) flag = 0;
+                        else flag = -1;
+                    } catch (Exception e){
+                        flag = -1;
+                    }
+                }
+                while (flag == -1);
+                System.out.print("Nhap ghi chu (Enter de bo qua): ");
+                String ghiChu = scanner.nextLine();
+                try {
+                   DichVu dv = new DichVu(tenDV, giaDV, ghiChu);
+                    dichVu = dv;
+                    System.out.println("- Tao dich vu moi thanh cong -");
+                } catch (FileNotFoundException ex) {
+                    System.out.println("- Tao dich vu moi khong thanh cong -");
+                }
+                System.out.println("Luu lua chon?\t1.Luu | 2.Khong luu va nhap lai | 3.Thoat");
+                do {
+                    flag = -1;
+                    System.out.print("Chon: ");
+                    String s = scanner.nextLine();
+                    cat = s.split(" ");
+                    try {
+                        chon = Integer.parseInt(cat[0].trim());
+                        if (chon > 0 && chon <= 3) flag = 0;
+                        else flag = -1;
+                    } catch (Exception e){
+                        flag = -1;
+                    }                
+                }
+                while (flag == -1);
+                if (chon == 1){
+                    try {
+                        dichVu.them();
+                        System.out.println("- Luu dich vu thanh cong -");
+                    } catch (IOException ex) {
+                        System.out.println("- Luu dich vu khong thanh cong -");
+                    }
+                    break;
+                }
+                else if (chon == 2)
+                    continue;
+                else
+                    return;
+            }
+        while (true);
+        }
+        //  cap nhat
+        else if (chon == 2){
+            System.out.println("1.Cap nhat 1 thuoc tinh | 2.Cap nhat 1 dong");
+            do {
+                flag = -1;
+                System.out.print("Chon: ");
+                String s = scanner.nextLine();
+                String[] cat = s.split(" ");
+                try {
+                    chon = Integer.parseInt(cat[0].trim());
+                    if (chon > 0 && chon < 3) flag = 0;
+                    else flag = -1;
+                } catch (Exception e){
+                    flag = -1;
+                }                
+            }
+            while (flag == -1);
+            do{
+                flag = -1;
+                System.out.print("Chon dich vu (vd:D001): ");
+                String ma = scanner.nextLine().toUpperCase();
+                String[] cat = ma.split(" ");
+                dichVu = tim(cat[0].trim());
+                if (dichVu.maDichVu != null || dichVu.maDichVu == "") flag = 0;
+                else flag = -1;
+                if (dichVu.getClass() != new DichVu().getClass() && dichVu.maDichVu.equals(ma)){
+                    System.out.println("Dich vu khong the thay doi");
+                    flag = -1;
+                }
+            }
+            while (flag == -1);
+            //  cap nhat 1 thuoc tinh
+            if (chon == 1){
+                System.out.println("1.Ten Dich Vu | 2.Gia Dich Vu | 3.Ghi Chu");
+                do {
+                    flag = -1;
+                    System.out.print("Chon: ");
+                    String s = scanner.nextLine();
+                    String[] cat = s.split(" ");
+                    try {
+                        chon = Integer.parseInt(cat[0].trim());
+                        if (chon > 0 && chon < 4) flag = 0;
+                        else flag = -1;
+                    } catch (Exception e){
+                        flag = -1;
+                    }                
+                }
+                while (flag == -1);
+                do{
+                    flag = -1;
+                    do{
+                        flag = -1;
+                        System.out.print("Nhap noi dung sua: ");
+                        String s = scanner.nextLine().toUpperCase();
+                        try{
+                            dichVu.capNhat(s.trim(), chon);
+                            flag = 0;
+                        } catch (Exception e){
+                            System.out.println("- Nhap sai thong tin -");
+                            flag = -1;
+                        }
+                    }
+                    while (flag == -1);
+                    System.out.println("Cap nhat dich vu " + dichVu.tenDichVu + "?\t1.Cap nhat | 2.Khong va nhap lai | 3.Thoat");
+                    do {
+                        flag = -1;
+                        System.out.print("Chon: ");
+                        String st = scanner.nextLine();
+                        String[] cat = st.split(" ");
+                        try {
+                            chon = Integer.parseInt(cat[0].trim());
+                            if (chon > 0 && chon <= 3) flag = 0;
+                            else flag = -1;
+                        } catch (Exception e){
+                            flag = -1;
+                        }                
+                    }
+                    while (flag == -1);
+                    if (chon == 1){
+                        try{
+                            rewriteFile();
+                            flag = 0;
+                            System.out.println("- Cap nhat dich vu thanh cong -");
+                        } catch (Exception e){
+                            System.out.println("- Cap nhat dich vu khong thanh cong -");
+                            flag = -1;
+                        }
+                        break;
+                    }
+                    else if (chon == 2)
+                        continue;
+                    else
+                        return;
+                }
+                while (flag == -1);
+            }
+            //  cap nhat 1 dong
+            else{
+                do{
+                    do{
+                        flag = -1;
+                        System.out.print("Nhap noi dung sua (vd: THUE MC, 1200000, ): ");
+                        String s = scanner.nextLine().toUpperCase();
+                        String[] cat = s.split(",");
+                        if (cat.length != 3) flag = -1;
+                        else if (cat.length == 2) cat[2] = "";
+                        else{
+                            try{
+                                dichVu.capNhat(s.trim());
+                                flag = 0;
+                            } catch (Exception e){
+                                System.out.println("- Nhap sai thong tin -");
+                                flag = -1;
+                            }
+                        }
+                    }
+                    while (flag == -1);
+                    System.out.println("Cap nhat dich vu " + dichVu.tenDichVu + "?\t1.Cap nhat | 2.Khong va nhap lai | 3.Thoat");
+                    do {
+                        flag = -1;
+                        System.out.print("Chon: ");
+                        String st = scanner.nextLine();
+                        String[] cat = st.split(" ");
+                        try {
+                            chon = Integer.parseInt(cat[0]);
+                            if (chon > 0 && chon <= 3) flag = 0;
+                            else flag = -1;
+                        } catch (Exception e){
+                            flag = -1;
+                        }                
+                    }
+                    while (flag == -1);
+                    if (chon == 1){
+                        try {
+                            rewriteFile();
+                            System.out.println("- Cap nhat dich vu thanh cong -");
+                        } catch (IOException ex) {
+                            System.out.println("Cap nhat dich vu khong thanh cong");
+                        }
+                    }
+                    else if (chon == 2)
+                        flag = -1;
+                    else
+                        return;
+                }
+                while (flag == -1);                
+            }
+        }
+        //   xoa sanh cuoi
+        else if (chon == 3){
+            do{
+                do{
+                    flag = -1;
+                    System.out.print("Chon dich vu (vd:D001): ");
+                    String ma = scanner.nextLine().toUpperCase();
+                    String[] cat = ma.split(" ");
+                    dichVu = tim(cat[0].trim());
+                    if (dichVu.maDichVu != null || dichVu.maDichVu == "") flag = 0;
+                    else flag = -1;
+                    if (dichVu.getClass() != new DichVu().getClass() && dichVu.maDichVu.equals(ma)){
+                        System.out.println("Dich vu khong the thay doi");
+                        flag = -1;
+                    }
+                }
+                while (flag == -1);
+                System.out.println("Xoa dich vu " + dichVu.tenDichVu + "?\t1.Xoa | 2.Khong va nhap lai | 3.Thoat");
+                do {
+                    flag = -1;
+                    System.out.print("Chon: ");
+                    String s = scanner.nextLine();
+                    String[] cat = s.split(" ");
+                    try {
+                        chon = Integer.parseInt(cat[0]);
+                        if (chon > 0 && chon <= 3) flag = 0;
+                        else flag = -1;
+                    } catch (Exception e){
+                        flag = -1;
+                    }                
+                }
+                while (flag == -1);
+                if (chon == 1){
+                    try {
+                        dichVu.xoa();
+                        System.out.println("- Xoa dich vu thanh cong -");
+                    } catch (IOException ex) {
+                        System.out.println("- Xoa dich vu khong thanh cong -");
+                    }
+                    break;
+                }
+                else if (chon == 2)
+                    continue;
+                else
+                    return;
+                }
+            while (true);
+        }
+        //  tra cuu
+        else{
+            do{
+                System.out.print("Nhap ten dich vu can tim: ");
+                String s = scanner.nextLine();
+                try{
+                    List <DichVu> dv = traCuu(s);
+                    if (dv.size() != 0){
+                        hienThi(dv, this);
+                        flag = 0;
+                    }
+                    else{
+                        System.out.println("- Khong tim thay dich vu nao phu hop -");
+                        flag = -1;
+                    }
+                } catch (Exception e){
+                    System.out.println("- Nhap sai thong tin -");
+                    flag = -1;
+                }
+            }
+            while (flag == -1);
+            System.out.println("Tim thanh cong\n1.Tim lai | 2.Thoat tim kiem");
+            do {
+                flag = -1;
+                System.out.print("Chon: ");
+                String st = scanner.nextLine();
+                String[] cat = st.split(" ");
+                try {
+                    chon = Integer.parseInt(cat[0].trim());
+                    if (chon > 0 && chon < 3) flag = 0;
+                    else flag = -1;
+                } catch (Exception e){
+                    flag = -1;
+                }                
+            }
+            while (flag == -1);
+            if (chon == 1){
+                flag = -1;
+            }
+            else
+                flag = 0;
+        }
+        while (flag == -1);
+    }
+}    

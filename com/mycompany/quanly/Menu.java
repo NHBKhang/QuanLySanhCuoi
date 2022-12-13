@@ -20,8 +20,7 @@ abstract class Menu {
 
     protected Menu(String maMon, String tenMon, int giaMon) {
         this.maMon = maMon;
-        if (tenMon != null)
-            this.tenMon = tenMon.toUpperCase();
+        this.tenMon = tenMon.toUpperCase();
         this.giaMon = giaMon;
     }
     
