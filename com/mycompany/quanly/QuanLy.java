@@ -66,8 +66,6 @@ public class QuanLy {
             quanLy();
         else{
             System.out.println("1.Bao Cao | 2.Thong Ke");
-            BaoCaoThongKe bctk = new BaoCaoThongKe();
-            bctk.init();
             do {
                 System.out.print("Chon: ");
                 String s = scanner.nextLine();
@@ -82,7 +80,8 @@ public class QuanLy {
             }
             while (flag == -1);
             if (chon == 1){
-                bctk = new DoanhThu();
+                DoanhThu dt = new DoanhThu();
+                dt.init();
                 System.out.println("1.Bao Cao Thang | 2.Bao Cao Quy");
                 do {
                     System.out.print("Chon: ");
@@ -98,14 +97,35 @@ public class QuanLy {
                 }
                 while (flag == -1);
                 if (chon == 1){                    
-                    bctk.baoCaoThang();
+                    dt.baoCaoThang();
                 }
                 else{
-                    bctk.baoCaoQuy();
+                    dt.baoCaoQuy();
                 }
             }
             else{
-                
+                TanSoThue ts = new TanSoThue();
+                ts.init();
+                System.out.println("1.Tan so sanh thue | 2.Tan so sanh thue theo nam");
+                do {
+                    System.out.print("Chon: ");
+                    String s = scanner.nextLine();
+                    String[] cat = s.split(" ");
+                    try {
+                        chon = Integer.parseInt(cat[0]);
+                        if (chon > 0 && chon <= 2) flag = 0;
+                        else flag = -1;
+                    } catch (Exception e){
+                        flag = -1;
+                    }                
+                }
+                while (flag == -1);
+                if (chon == 1){
+                    ts.thongKe();
+                }
+                else{
+                    ts.thongKeNam();
+                }
             }
         }
     }

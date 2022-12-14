@@ -4,6 +4,7 @@
  */
 package com.mycompany.quanly;
 
+import static com.mycompany.quanly.SanhCuoi.getCacSanh;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,30 +20,9 @@ class DoanhThu extends BaoCaoThongKe{
         this.giaTien = giaTien;
     }
     public DoanhThu() {}
-}
-
-class SapXep extends BaoCaoThongKe{
-        
-    public SapXep() {}
-}
-
-public class BaoCaoThongKe {
-
-    protected String tenTiec;
-    protected String maSanh;
-    protected String ngay;
-    protected int giaTien;
-
-    private final String url = "D:\\Data\\ThongTinThue.txt";
-    private File file = new File(url);
-
-
-    private static List<SapXep> sx = new ArrayList<>();
-    private static List<DoanhThu> ds = new ArrayList<>();
-
+    
     public void init() {
-        DoanhThu dt = new DoanhThu();
-        try ( Scanner a = new Scanner(getFile())) {
+        try ( Scanner a = new Scanner(file)) {
             a.useDelimiter(",");
             while (a.hasNext()) {
                 a.next();
@@ -53,15 +33,15 @@ public class BaoCaoThongKe {
                 a.next();
                 a.next();
                 int giaTien = a.nextInt();
-                DoanhThu h = new DoanhThu(ngay, giaTien);
-                ds.add(h);
+                DoanhThu dt = new DoanhThu(ngay, giaTien);
+                getDs().add(dt);
                 a.nextLine();
             }
         } catch (Exception ex) {
             System.out.println(ex);
         }
     }
-
+    
     public void baoCaoThang() {
         int flag = -1;
         Scanner dt = new Scanner(System.in);
@@ -71,7 +51,7 @@ public class BaoCaoThongKe {
             thang = dt.nextLine();
             String[] cat = thang.split(" ");
             try {
-                int chon = Integer.parseInt(cat[0]);
+                int chon = Integer.parseInt(cat[0].trim());
                 if (chon > 0 && chon <= 12) flag = 0;
                 else flag = -1;
             } catch (Exception e){
@@ -86,7 +66,7 @@ public class BaoCaoThongKe {
             nam = dt.nextLine();
             String[] cat = nam.split(" ");
             try {
-                int chon = Integer.parseInt(cat[0]);
+                int chon = Integer.parseInt(cat[0].trim());
                 if (chon > 0) flag = 0;
                 else flag = -1;
             } catch (Exception e){
@@ -104,7 +84,7 @@ public class BaoCaoThongKe {
         }
         System.out.println("Doanh Thu Thang " + thang + "/" + nam + " la: " + tong);
     }
-
+    
     public void baoCaoQuy() {
         int flag = -1;
         Scanner dt = new Scanner(System.in);
@@ -114,8 +94,8 @@ public class BaoCaoThongKe {
             String s = dt.nextLine();
             String[] cat = s.split(" ");
             try {
-                quy = Integer.parseInt(cat[0]);
-                if (quy > 0 && quy <= 12) flag = 0;
+                quy = Integer.parseInt(cat[0].trim());
+                if (quy > 0 && quy <= 4) flag = 0;
                 else flag = -1;
             } catch (Exception e){
                 flag = -1;
@@ -129,7 +109,7 @@ public class BaoCaoThongKe {
             nam = dt.nextLine();
             String[] cat = nam.split(" ");
             try {
-                int chon = Integer.parseInt(cat[0]);
+                int chon = Integer.parseInt(cat[0].trim());
                 if (chon > 0) flag = 0;
                 else flag = -1;
             } catch (Exception e){
@@ -175,19 +155,152 @@ public class BaoCaoThongKe {
         }
         System.out.println("Doanh Thu Quy " + quy + " nam " + nam + " la:" + sum);
     }
+}
+
+class TanSoThue extends BaoCaoThongKe{
+    private int dem = 0;
+    
+    private String form = "%-15s%-10s%n";
+    private String[] header = new String[] {"Ten Sanh", "Tan So"};
+    
+    public TanSoThue(String tenSanh, String maSanh) {
+        this.tenSanh = tenSanh;
+        this.maSanh = maSanh;
+        this.dem = 0;
+    }
+    public TanSoThue() {}
+    
+    public void inc(){
+        this.dem++;
+    }
+    
+    public void init() {
+        for (SanhCuoi s: getCacSanh()){
+            TanSoThue ts = new TanSoThue(s.getTenSanh(), s.getMaSanh());
+            getTs().add(ts);
+        }
+    }
+    
+    public void thongKe() {
+        try ( Scanner a = new Scanner(file)) {
+            a.useDelimiter(",");
+            while (a.hasNext()) {
+                a.next();
+                String maSanh = a.next();
+                //  add tan so thue
+                for (TanSoThue t: getTs()){
+                    if (t.maSanh.equalsIgnoreCase(maSanh)){
+                        t.inc();
+                    }
+                }
+                a.nextLine();
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        sapXep();
+        System.out.println("TAN SO CAC SANH CUOI DUOC THUE");
+        this.hienThiFile();
+    }
+    
+    public void thongKeNam() {
+        int flag = -1;
+        Scanner dt = new Scanner(System.in);
+        String nam;
+        do {
+            System.out.print("Nhap Nam: ");
+            nam = dt.nextLine();
+            String[] cat = nam.split(" ");
+            try {
+                int chon = Integer.parseInt(cat[0].trim());
+                if (chon > 0) flag = 0;
+                else flag = -1;
+            } catch (Exception e){
+                flag = -1;
+            }                
+        }
+        while (flag == -1);
+        try ( Scanner a = new Scanner(file)) {
+            a.useDelimiter(",");
+            while (a.hasNext()) {
+                a.next();
+                String maSanh = a.next();
+                a.next();
+                String ngay = a.next();
+                String[] cat = ngay.split("/");
+                //  add tan so thue
+                if (cat[2].equalsIgnoreCase(nam)){
+                    for (TanSoThue t: getTs()){
+                        if (t.maSanh.equalsIgnoreCase(maSanh)){
+                            t.inc();
+                        }
+                    }
+                }
+                a.nextLine();
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        sapXep();
+        System.out.println("TAN SO CAC SANH CUOI DUOC THUE " + nam);
+        this.hienThiFile();
+    }
+
+    public void sapXep(){
+        getTs().sort((p1, p2) -> {
+            int t1 = p1.dem;
+            int t2 = p2.dem;
+            return (t1 < t2 ? 1 : (t1 > t2 ? -1 : 0));
+        });
+    }
+    
+    public void hienThiFile(){
+            System.out.format(this.form, this.header);
+            for (Object[] row : toTable(getTs(), getTs().size())){
+                System.out.format(this.form, row);
+           }
+    }
+
+    //  tao bang
+    private Object[][] toTable(List<TanSoThue> tst, int size) {
+        final Object[][] table = new String[size][];
+        for (int i = 0; i < size; i++){
+            table[i] = new String[] {tst.get(i).tenSanh,
+                                     String.valueOf(tst.get(i).dem)};
+        }
+        return table;
+    }
+}
+
+public abstract class BaoCaoThongKe {
+
+    protected String tenTiec;
+    protected String maSanh;
+    protected String tenSanh;
+    protected String ngay;
+    protected int giaTien;
+
+    private final String url = "D:\\Data\\ThongTinThue.txt";
+    protected File file = new File(url);
+
+
+    private static List<TanSoThue> ts = new ArrayList<>();
+    private static List<DoanhThu> ds = new ArrayList<>(); 
+    
+    public abstract void init();
 
     /**
      * @return the maSanh
      */
-    public String getMaSanh() {
-        return maSanh;
+    public String getTenSanh() {
+        return tenSanh;
     }
 
     /**
      * @param maSanh the maSanh to set
      */
-    public void setMaSanh(String maSanh) {
-        this.maSanh = maSanh;
+    public void setMaSanh(String tenSanh) {
+        this.tenSanh = tenSanh;
     }
 
     /**
@@ -262,6 +375,22 @@ public class BaoCaoThongKe {
     public static void setDs(List<DoanhThu> aDs) {
         ds = aDs;
     }
+
+    /**
+     * @return the ts
+     */
+    public static List<TanSoThue> getTs() {
+        return ts;
+    }
+
+    /**
+     * @param aTs the ts to set
+     */
+    public static void setTs(List<TanSoThue> aTs) {
+        ts = aTs;
+    }
+
+
     
 }
 
