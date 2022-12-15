@@ -24,7 +24,6 @@ public class HeSoGiaThue {
     File file = new File(url);
     
     public HeSoGiaThue(int buoi) throws FileNotFoundException, IOException{
-        
         try (Scanner scanner = new Scanner(file)){
             while(scanner.hasNextLine()){
                 if (scanner.nextInt() == buoi){
@@ -83,7 +82,7 @@ public class HeSoGiaThue {
             try (PrintWriter writer = new PrintWriter(fileWriter)){
                 for (int i = 0; i < 3; i++){
                     for (int j = 0; j < 3; j++){
-                        writer.printf("%s\s",line[i][j]);
+                        writer.print(line[i][j] + " ");
                     }
                     writer.println();
                 }             

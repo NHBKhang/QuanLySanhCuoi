@@ -48,7 +48,7 @@ public class GiaThue {
             if (file.length() == 0 || !ngayDaTonTai(date)) {
                 try(FileWriter fileWriter = new FileWriter(file, true)){
                     try(PrintWriter writer = new PrintWriter(fileWriter)){
-                        writer.printf("%s\s",this.date);
+                        writer.print(this.date + " ");
                         writer.print(this.heSoKhac);
                         writer.println();
                     } catch (Exception ex){
@@ -166,7 +166,7 @@ public class GiaThue {
         try(FileWriter fileWriter = new FileWriter(file, false)){
             try(PrintWriter writer = new PrintWriter(fileWriter)){
                 for (GiaThue g: dsNgay){
-                    writer.printf("%s\s",g.date);
+                    writer.print(g.date + " ");
                     writer.println(g.heSoKhac);
                 }
             } 

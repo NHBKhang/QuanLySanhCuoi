@@ -47,8 +47,9 @@ public class Karaoke extends DichVu{
         System.out.println("(thoi gian thue khong qua 5 tieng)");
         do{
             System.out.print("Nhap thoi gian thue (vd: 2:30): ");
-            t = scanner.next();
-            thoiGian = t.split(":");
+            t = scanner.nextLine();
+            String[] cat = t.split(" ");
+            thoiGian = cat[0].split(":");
             if (thoiGian.length <= 2){
                 try{
                     int[] time = {0,0};
@@ -87,8 +88,14 @@ public class Karaoke extends DichVu{
     
     @Override
     void xuat(String form, NumberFormat vnFormat, String dv) {
-        String[] t = this.thoiGianThue.split(":");
-        double phut = Double.parseDouble(t[1]) / 60, gio = Double.parseDouble(t[0]);
+        String[] t;
+        t = this.thoiGianThue.split(":");
+        double phut, gio = Double.parseDouble(t[0]);
+        try{
+            phut = Double.parseDouble(t[1]) / 60;
+        } catch (Exception e){
+            phut = 0;
+        }
         String so = String.valueOf(gio + phut);
         System.out.printf(form, super.tenDichVu,so + " x " + vnFormat.format(super.giaDichVu) + dv);
     }

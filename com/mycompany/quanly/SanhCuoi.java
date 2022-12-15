@@ -388,7 +388,7 @@ public class SanhCuoi {
         return gia;
     }
 
-    SanhCuoi Nhap() {
+    public SanhCuoi Nhap() {
         Scanner scanner = new Scanner(System.in);
         int flag = -1, chon, buoi;
         String ma, date;

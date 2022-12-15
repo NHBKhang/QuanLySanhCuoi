@@ -271,18 +271,15 @@ public class ThucUong extends Menu {
                 System.out.print("Chon nuoc uong (vd: 1,2): ");
                 mon = scanner.nextLine();
                 String[] cacMon = mon.split(",");
-                for (int i = 0; i < cacMon.length; i++){
-                     for (int j = i + 1; j < cacMon.length; j++){
-                        if (cacMon[i].equals(cacMon[j])) break;
-                        try {
-                            int s = Integer.parseInt(cacMon[i].trim());
-                            if (s <= getMonUong().size())
-                                cacMon[i] = String.format("2%05d", s);
-                            flag = 0;
-                        } catch (Exception e) {
-                            flag = -1;
-                        }
-                     }
+                for (int i = 0; i < cacMon.length; i++){;
+                    try {
+                        int s = Integer.parseInt(cacMon[i].trim());
+                        if (s <= getMonUong().size())
+                            cacMon[i] = String.format("2%05d", s);
+                        flag = 0;
+                    } catch (Exception e) {
+                        flag = -1;
+                    }
                 }
                 if (flag == 0){
                     for (ThucUong t: getMonUong()){

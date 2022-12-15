@@ -294,16 +294,13 @@ public class ThucAn extends Menu {
                 mon = scanner.nextLine();
                 String[] cacMon = mon.split(",");
                 for (int i = 0; i < cacMon.length; i++){
-                    for (int j = i + 1; j < cacMon.length; j++){
-                        if (cacMon[i].equals(cacMon[j])) break;
-                        try {
-                            int s = Integer.parseInt(cacMon[i].trim());
-                            if (s <= getMonAn().size())
-                                cacMon[i] = String.format("1%05d", s);
-                            flag = 0;
-                        } catch (Exception e) {
-                            flag = -1;
-                        }
+                    try {
+                        int s = Integer.parseInt(cacMon[i].trim());
+                        if (s <= getMonAn().size())
+                            cacMon[i] = String.format("1%05d", s);
+                        flag = 0;
+                    } catch (Exception e) {
+                        flag = -1;
                     }
                 }
                 if (flag == 0){

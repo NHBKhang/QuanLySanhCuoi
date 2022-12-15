@@ -280,8 +280,8 @@ public abstract class BaoCaoThongKe {
     protected String ngay;
     protected int giaTien;
 
-    private final String url = "D:\\Data\\ThongTinThue.txt";
-    protected File file = new File(url);
+    private BuoiTiec bt;
+    protected File file = new File(bt.getUrl());
 
 
     private static List<TanSoThue> ts = new ArrayList<>();
@@ -301,13 +301,6 @@ public abstract class BaoCaoThongKe {
      */
     public void setMaSanh(String tenSanh) {
         this.tenSanh = tenSanh;
-    }
-
-    /**
-     * @return the url
-     */
-    public String getUrl() {
-        return url;
     }
 
     /**

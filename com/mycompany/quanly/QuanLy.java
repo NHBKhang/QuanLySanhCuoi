@@ -29,11 +29,11 @@ import java.util.logging.Logger;
  * @author KHANG
  */
 public class QuanLy {
-    static SanhCuoi sc = new SanhCuoi();
-    static DichVu dv = new DichVu();
-    static ThucAn ta = new ThucAn();
-    static ThucUong tu = new ThucUong();
-    static Scanner scanner = new Scanner(System.in);
+    private static SanhCuoi sc = new SanhCuoi();
+    private static DichVu dv = new DichVu();
+    private static ThucAn ta = new ThucAn();
+    private static ThucUong tu = new ThucUong();
+    private static Scanner scanner = new Scanner(System.in);
     
     public static void main(String[] args) throws FileNotFoundException, IOException {
         sc.init();
@@ -53,7 +53,7 @@ public class QuanLy {
             String s = scanner.nextLine();
             String[] cat = s.split(" ");
             try {
-                chon = Integer.parseInt(cat[0]);
+                chon = Integer.parseInt(cat[0].trim());
                 if (chon != 1 && chon != 2 && chon != 3) chon = -1;
             } catch (Exception e){
                 chon = -1;
@@ -131,7 +131,7 @@ public class QuanLy {
     }
 
     private static void choThue() throws FileNotFoundException, IOException{
-        int chon, soBan = 20, flag = -1;
+        int chon = 0, soBan = 20, flag = -1;
         BuoiTiec tiec = new BuoiTiec();        
         do {
             SanhCuoi sanh = sc.Nhap();
@@ -152,9 +152,12 @@ public class QuanLy {
             }
             do{
                 System.out.print("Nhap so ban (toi thieu 5 ban): ");
+                String i = scanner.nextLine();
+                String[] a = i.split(" ");
                 try {
-                    soBan = Integer.parseInt(scanner.next());
+                    soBan = Integer.parseInt(a[0].trim());
                     if (soBan >= 5) flag = 0;
+                    else flag = -1;
                 } catch (Exception e){
                     flag = -1;
                 }
@@ -165,24 +168,28 @@ public class QuanLy {
             long giaTongDV = 0;
             List<DichVu> dichVu = dv.Nhap();
             for (DichVu d: dichVu){
-                d.Nhap();
-                giaTongDV += d.getGiaDichVu();
+                if (d.getClass() != new DichVu().getClass()){
+                    d.Nhap();
+                    giaTongDV += d.getGiaDichVu();
+                }
             }
             tiec.setDichVu(dichVu);
             tiec.setDonGiaDV(giaTongDV);
             do{
+                flag = -1;
                 System.out.print("Luu lua chon va xuat hoa don?\n"
                         + "1.Luu va xuat hoa don  |  2.Khong luu va nhap lai  |  3.Thoat\nChon: ");
                 String s = scanner.nextLine();
                 String[] cat = s.split(" ");
                 try {
-                    chon = Integer.parseInt(s.trim());
-                    if (chon <= 0 && chon > 3) chon = -1;
+                    chon = Integer.parseInt(cat[0].trim());
+                    if (chon <= 0 && chon > 3) flag = -1;
+                    else flag = 0;
                 } catch (Exception e){
-                    chon = -1;
+                    flag = -1;
                 }
             }
-            while (chon!=1&&chon!=2&&chon!=3);
+            while (flag == -1);
             if (chon == 1)
                 break;
             else if (chon == 2)

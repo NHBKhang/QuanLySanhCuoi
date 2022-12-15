@@ -102,7 +102,7 @@ public class ThueCaSi extends DichVu{
     void xuat(String form, NumberFormat vnFormat, String dv) {
         System.out.printf(form, super.tenDichVu, "");
         for (int i = 0; i < caSi.size(); i++){
-            System.out.printf("\s\s%-28s%-15s\n", this.caSi.get(i).getTenCaSi(),
+            System.out.printf("  %-28s%-15s\n", this.caSi.get(i).getTenCaSi(),
                 this.soLuong.get(i) + " x " + vnFormat.format(this.caSi.get(i).getGiaCaSi()) + dv);
         }
     }
