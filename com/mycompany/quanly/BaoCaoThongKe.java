@@ -281,7 +281,7 @@ public abstract class BaoCaoThongKe {
     protected int giaTien;
 
     private BuoiTiec bt;
-    protected File file = new File(bt.getUrl());
+    protected File file = new File("D:\\Data\\ThongTinThue.txt");
 
 
     private static List<TanSoThue> ts = new ArrayList<>();

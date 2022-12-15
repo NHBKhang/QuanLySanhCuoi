@@ -5,7 +5,7 @@
 
 package com.mycompany.quanly;
 
-import static com.mycompany.quanly.CaSi.hienThiFile;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;

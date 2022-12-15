@@ -102,7 +102,8 @@ public class BuoiTiec {
         try(FileWriter fileW = new FileWriter(getFile(), true)){
             try(PrintWriter print = new PrintWriter(fileW)){
                 print.print(this.tenBuoiTiec + "," + this.sanhCuoi.getMaSanh() +
-                        "," + this.sanhCuoi.getGia().getBuoi().getBuoi() + ",");
+                        "," + this.sanhCuoi.getGia().getBuoi().getBuoi() + "," +
+                        this.ngayThue + ",");
                 for (int i = 0; i < thucAn.size(); i++){
                     print.print(thucAn.get(i).maMon);
                     if (thucAn.size() > i + 1)
